@@ -12,6 +12,7 @@ namespace GoC
         public int CartaEscolha { get; set; }
         public List<Carta> BaralhoPessoa { get; set; }
 
+        public int Pontos = 0;
         public Pessoa(string nome)
         {
             Nome = nome;

@@ -10,15 +10,20 @@ namespace GoC
     {
         public static void Main(string[] args)
         {
+            MostraJogo();
 
             List<Carta> Baralho = new List<Carta>();
-            Pessoa a = new Pessoa("Gustavo");
-            Pessoa b = new Pessoa("Julio");
-            a.BaralhoPessoa = new List<Carta>();
-            b.BaralhoPessoa = new List<Carta>();
+            Console.Write("Jogador 1, digite seu nome: ");
+            Pessoa p1 = new Pessoa(Console.ReadLine());
+            Console.Write("Jogador 2, digite seu nome: ");
+            Pessoa p2 = new Pessoa(Console.ReadLine());
+            Console.Clear();
+            p1.BaralhoPessoa = new List<Carta>();
+            p2.BaralhoPessoa = new List<Carta>();
             int vez = new Random().Next(0, 2);
             int rodada = 1;
-            bool bl = true;
+            bool op = true;
+            bool erro = true;
 
             Espada Alondeg = new Espada("Alondeg", "Espada", 5, 4, 6, 5);
             Espada Amatsu = new Espada("Amatsu", "Espada", 5, 6, 5, 8);
@@ -29,8 +34,8 @@ namespace GoC
             Espada Venoma = new Espada("Venoma", "Espada", 5, 4, 9, 8);
             Lanca Crasher = new Lanca("Crasher", "Lanca", 8, 5, 5, 6);
             Lanca Hoenigo = new Lanca("Hoenigo", "Lanca", 6, 5, 5, 3);
-            Lanca Ketsu = new Lanca("Ketsu", "Lanca", 5, 6, 5, 7);
-            Lanca Nepma = new Lanca("Nepma", "Lanca", 5, 4, 8, 5);
+            Lanca Ketsu = new Lanca("Ketsu", "Lanca", 6, 6, 5, 7);
+            Lanca Nepma = new Lanca("Nepma", "Lanca", 6, 4, 8, 5);
             Lanca Pioptu = new Lanca("Pioptu", "Lanca", 6, 2, 5, 6);
             Lanca Setka = new Lanca("Setka", "Lanca", 7, 3, 6, 5);
             Lanca Tunigola = new Lanca("Tunigola", "Lanca", 9, 5, 5, 8);
@@ -41,6 +46,7 @@ namespace GoC
             Machado Gotsau = new Machado("Gotsau", "Machado", 9, 5, 7, 5);
             Machado Qiudeb = new Machado("Qiudeb", "Machado", 6, 8, 9, 5);
 
+            
             Baralho.Add(Alondeg);
             Baralho.Add(Amatsu);
             Baralho.Add(Belmarg);
@@ -62,59 +68,136 @@ namespace GoC
             Baralho.Add(Gotsau);
             Baralho.Add(Qiudeb);
 
-            for (int i = 0; i < 10; i++)
+            while (op)
             {
-                int index = new Random().Next(Baralho.Count);
-                a.BaralhoPessoa.Add(Baralho[index]);
-                Baralho.Remove(Baralho[index]);
-
-                if (a.BaralhoPessoa.Count == 10)
+                //vez = 0;
+                for (int i = 0; i < 3; i++)
                 {
-                    for (i = 0; i < 10; i++)
+                    int index = new Random().Next(Baralho.Count);
+                    p1.BaralhoPessoa.Add(Baralho[index]);
+                    Baralho.Remove(Baralho[index]);
+
+                    if (p1.BaralhoPessoa.Count == 3)
                     {
-                        index = new Random().Next(Baralho.Count);
-                        b.BaralhoPessoa.Add(Baralho[index]);
-                        Baralho.Remove(Baralho[index]);
+                        for (i = 0; i < 3; i++)
+                        {
+                            index = new Random().Next(Baralho.Count);
+                            p2.BaralhoPessoa.Add(Baralho[index]);
+                            Baralho.Remove(Baralho[index]);
+                        }
                     }
                 }
-            }
 
-            while (a.BaralhoPessoa.Count != 0 || b.BaralhoPessoa.Count != 0)
-            {
-                Console.WriteLine($"=-=-=-= Rodada {rodada} =-=-=-=");
-                //Jogador 1
-                if (vez == 0)
+                while (p1.BaralhoPessoa.Count != 0 || p2.BaralhoPessoa.Count != 0)
                 {
-                    a.VerCartas();
-                    b.VerCartas();
 
-                    a.BaralhoPessoa[a.CartaEscolha].Dano(a, b);
-                    vez = 1;
+                    Console.WriteLine($"=-=-=-= Rodada {rodada} =-=-=-=");
+                    Console.WriteLine($"{p1.Nome} tem {p1.BaralhoPessoa.Count} cartas;\n{p2.Nome} tem {p2.BaralhoPessoa.Count} cartas;\n");
+                    Console.WriteLine($"Placar\n{p1.Nome}: {p1.Pontos} | {p2.Nome}: {p2.Pontos}\n");
+                    //Jogador 1
+                    if (vez == 0)
+                    {
+                        while (erro)
+                        {
+                            try
+                            {
+                                p1.VerCartas();
+                                p2.VerCartas();
+                                p1.BaralhoPessoa[p1.CartaEscolha].Dano(p1, p2);
+                                erro = false;
+                            }
+                            catch (Excecao ex)
+                            {
+                                Console.WriteLine("Erro: " + ex.Message);
+                                Console.Write("Digite uma tecla pra continuar...\n");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+                            vez = 0;
+                        }
+                        vez = 1;
+                        erro = true;
+                    }
+                    //Jogador 2
+                    else
+                    {
+                        while (erro)
+                        {
+                            try
+                            {
+                                p2.VerCartas();
+                                p1.VerCartas();
+                                p2.BaralhoPessoa[p2.CartaEscolha].Dano(p2, p1);
+                                erro = false;
+                            }
+                            catch (Excecao ex)
+                            {
+                                Console.WriteLine("Erro: " + ex.Message);
+                                Console.Write("Digite uma tecla pra continuar...\n");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+                            vez = 1;
+                        }    
+                        vez = 0;
+                        erro = true;
+                    }
+
+                    //p2 ganhou
+                    if (p1.BaralhoPessoa.Count == 0)
+                    {
+                        Console.WriteLine($"Jogador {p2.Nome} ganhou! Deseja jogar novamente?\n[0]Sim\n[1]Não\n");
+                        int decisao = int.Parse(Console.ReadLine());
+
+
+                        if (decisao == 0)
+                        {
+                            for (int i = 0; i < p2.BaralhoPessoa.Count; i++)
+                            {
+                                Baralho.Add(p2.BaralhoPessoa[i]);
+                            }
+                            p2.BaralhoPessoa.Clear();
+                            rodada = 1;
+                            p1.Pontos = 0; p2.Pontos = 0;
+                            Console.Clear();
+                            continue;
+                        }
+                        else if (decisao == 1) { op = false; break; }
+
+                        else
+                            Console.WriteLine("ERRO!");
+                    }
+
+                    //p1 ganhou
+                    else if (p2.BaralhoPessoa.Count == 0)
+                    {
+                        Console.WriteLine($"Jogador {p1.Nome} ganhou! Deseja jogar novamente?\n[0]Sim\n[1]Não\n");
+                        int decisao = int.Parse(Console.ReadLine());
+
+                        if (decisao == 0)
+                        {
+                            for (int i = 0; i < p1.BaralhoPessoa.Count; i++)
+                            {
+                                Baralho.Add(p1.BaralhoPessoa[i]);
+                            }
+                            p1.BaralhoPessoa.Clear();
+                            rodada = 1;
+                            p1.Pontos = 0; p2.Pontos = 0;
+                            Console.Clear();
+                            continue;
+                        }
+                        else if (decisao == 1) { op = false; break; }
+
+                        else
+                            Console.WriteLine("ERRO!");
+                    }
+                    rodada++;
                 }
-
-                //Jogador 2   
-                else
-                {
-                    b.VerCartas();
-                    a.VerCartas();
-
-                    b.BaralhoPessoa[b.CartaEscolha].Dano(b, a);
-                    vez = 0;
-                }
-
-                if (a.BaralhoPessoa.Count == 0)
-                {
-                    Console.WriteLine($"Jogador {b.Nome} ganhou!");
-                    break;
-                }
-
-                else if (b.BaralhoPessoa.Count == 0)
-                {
-                    Console.WriteLine($"Jogador {a.Nome} ganhou!");
-                    break;
-                }
-                rodada++;
-            }
+            }             
+        }
+        public static void MostraJogo()
+        {
+            Console.WriteLine("[|= Game Of Cards =|]\n\n");
         }
     }
 }

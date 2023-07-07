@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,67 +30,82 @@ namespace GoC
 
         public void Dano(Pessoa a, Pessoa b)
         {
-            Console.Write($"{a.Nome}, selecione o tipo de dano que deseja causar:\n[0]Físico\n[1]Mágico\n");
-            TipoDano = int.Parse(Console.ReadLine());
+            bool erro = true;
+
+            while (erro)
+            {
+                    Console.Write($"{a.Nome}, selecione o tipo de dano que deseja causar:\n[0]Físico\n[1]Mágico\n");
+                    TipoDano = int.Parse(Console.ReadLine());
+
+                if (TipoDano > 1) { throw new Excecao("ERRO!"); }
+                else
+                    erro = false;
+            }         
 
             //DanoFisico
             if (TipoDano == 0)
             {
                 Console.Clear();
-                if (a.BaralhoPessoa[a.CartaEscolha].Atq == b.BaralhoPessoa[b.CartaEscolha].Def || a.BaralhoPessoa[a.CartaEscolha].Mag == b.BaralhoPessoa[b.CartaEscolha].Res)
+                if (a.BaralhoPessoa[a.CartaEscolha].Atq == b.BaralhoPessoa[b.CartaEscolha].Def)
                 {
                     //a
                     if (a.BaralhoPessoa[a.CartaEscolha].Tipo == "Espada" && b.BaralhoPessoa[b.CartaEscolha].Tipo == "Machado")
                     {
-                        Console.WriteLine($"{a.Nome} ganhou, pois a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome} vence o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{a.Nome} ganhou, pois a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome} vence o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome}!\n");
                         a.BaralhoPessoa.Capacity++;
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                        a.Pontos++;
                     }
 
                     //b
                     else if (b.BaralhoPessoa[b.CartaEscolha].Tipo == "Espada" && a.BaralhoPessoa[a.CartaEscolha].Tipo == "Machado")
                     {
-                        Console.WriteLine($"{b.Nome} ganhou, pois a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome} vence o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{b.Nome} ganhou, pois a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome} vence o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome}!\n");
                         b.BaralhoPessoa.Capacity++;
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
+                        b.Pontos++;
                     }
 
                     //a
                     else if (a.BaralhoPessoa[a.CartaEscolha].Tipo == "Machado" && b.BaralhoPessoa[b.CartaEscolha].Tipo == "Lanca")
                     {
-                        Console.WriteLine($"{a.Nome} ganhou, pois o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{a.Nome} ganhou, pois o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome}!\n");
                         a.BaralhoPessoa.Capacity++;
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                        a.Pontos++;
                     }
 
                     //b
                     else if (b.BaralhoPessoa[b.CartaEscolha].Tipo == "Machado" && a.BaralhoPessoa[a.CartaEscolha].Tipo == "Lanca")
                     {
-                        Console.WriteLine($"{b.Nome} ganhou, pois o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{b.Nome} ganhou, pois o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome}!\n");
                         b.BaralhoPessoa.Capacity++;
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
+                        b.Pontos++;
                     }
 
                     //a
                     else if (a.BaralhoPessoa[a.CartaEscolha].Tipo == "Lanca" && b.BaralhoPessoa[b.CartaEscolha].Tipo == "Espada")
                     {
-                        Console.WriteLine($"{a.Nome} ganhou, pois a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{a.Nome} ganhou, pois a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome}!\n");
                         a.BaralhoPessoa.Capacity++;
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                        a.Pontos++;
                     }
 
                     //b
                     else if (b.BaralhoPessoa[b.CartaEscolha].Tipo == "Lanca" && a.BaralhoPessoa[a.CartaEscolha].Tipo == "Espada")
                     {
-                        Console.WriteLine($"{b.Nome} ganhou, pois a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{b.Nome} ganhou, pois a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome}!\n");
                         b.BaralhoPessoa.Capacity++;
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
+                        b.Pontos++;
                     }
                 }
 
@@ -99,6 +115,7 @@ namespace GoC
                     a.BaralhoPessoa.Capacity++;
                     a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                     b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                    a.Pontos++;
                 }
                 else if (b.BaralhoPessoa[b.CartaEscolha].Def > a.BaralhoPessoa[a.CartaEscolha].Atq)
                 {
@@ -107,67 +124,74 @@ namespace GoC
                     b.BaralhoPessoa.Capacity++;
                     b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                     a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
+                    b.Pontos++;
                 }
             }
 
             //Dano Mágico
-            if (TipoDano == 1)
+            else if (TipoDano == 1)
             {
                 Console.Clear();
-                if (a.BaralhoPessoa[a.CartaEscolha].Atq == b.BaralhoPessoa[b.CartaEscolha].Def || a.BaralhoPessoa[a.CartaEscolha].Mag == b.BaralhoPessoa[b.CartaEscolha].Res)
+                if (a.BaralhoPessoa[a.CartaEscolha].Mag == b.BaralhoPessoa[b.CartaEscolha].Res)
                 {
                     //a
                     if (a.BaralhoPessoa[a.CartaEscolha].Tipo == "Espada" && b.BaralhoPessoa[b.CartaEscolha].Tipo == "Machado")
                     {
-                        Console.WriteLine($"{a.Nome} ganhou, pois a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome} vence o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{a.Nome} ganhou, pois a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome} vence o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome}!\n");
                         a.BaralhoPessoa.Capacity++;
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                        a.Pontos++;
                     }
 
                     //b
                     else if (b.BaralhoPessoa[b.CartaEscolha].Tipo == "Espada" && a.BaralhoPessoa[a.CartaEscolha].Tipo == "Machado")
                     {
-                        Console.WriteLine($"{b.Nome} ganhou, pois a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome} vence o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{b.Nome} ganhou, pois a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome} vence o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome}!\n");
                         b.BaralhoPessoa.Capacity++;
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
+                        b.Pontos++;
                     }
 
                     //a
                     else if (a.BaralhoPessoa[a.CartaEscolha].Tipo == "Machado" && b.BaralhoPessoa[b.CartaEscolha].Tipo == "Lanca")
                     {
-                        Console.WriteLine($"{a.Nome} ganhou, pois o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{a.Nome} ganhou, pois o Machado {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome}!\n");
                         a.BaralhoPessoa.Capacity++;
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                        a.Pontos++;
                     }
 
                     //b
                     else if (b.BaralhoPessoa[b.CartaEscolha].Tipo == "Machado" && a.BaralhoPessoa[a.CartaEscolha].Tipo == "Lanca")
                     {
-                        Console.WriteLine($"{b.Nome} ganhou, pois o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{b.Nome} ganhou, pois o Machado {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome}!\n");
                         b.BaralhoPessoa.Capacity++;
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
+                        b.Pontos++;
                     }
 
                     //a
                     else if (a.BaralhoPessoa[a.CartaEscolha].Tipo == "Lanca" && b.BaralhoPessoa[b.CartaEscolha].Tipo == "Espada")
                     {
-                        Console.WriteLine($"{a.Nome} ganhou, pois a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{a.Nome} ganhou, pois a Lanca {a.BaralhoPessoa[a.CartaEscolha].Nome} vence a Espada {b.BaralhoPessoa[b.CartaEscolha].Nome}!\n");
                         a.BaralhoPessoa.Capacity++;
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                        a.Pontos++;
                     }
 
                     //b
                     else if (b.BaralhoPessoa[b.CartaEscolha].Tipo == "Lanca" && a.BaralhoPessoa[a.CartaEscolha].Tipo == "Espada")
                     {
-                        Console.WriteLine($"{b.Nome} ganhou, pois a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome}!");
+                        Console.WriteLine($"{b.Nome} ganhou, pois a Lanca {b.BaralhoPessoa[b.CartaEscolha].Nome} vence a Espada {a.BaralhoPessoa[a.CartaEscolha].Nome}!\n");
                         b.BaralhoPessoa.Capacity++;
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
+                        b.Pontos++;
                     }
                 }
                 else if (a.BaralhoPessoa[a.CartaEscolha].Mag > b.BaralhoPessoa[b.CartaEscolha].Res)
@@ -177,6 +201,7 @@ namespace GoC
                     a.BaralhoPessoa.Capacity++;
                     a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                     b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
+                    a.Pontos++;
                 }
                 else if (b.BaralhoPessoa[b.CartaEscolha].Res > a.BaralhoPessoa[a.CartaEscolha].Mag)
                 {
@@ -185,8 +210,9 @@ namespace GoC
                     b.BaralhoPessoa.Capacity++;
                     b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                     a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
-                }
-            }
+                    b.Pontos++;
+                }    
+            }              
         }
     }
 
