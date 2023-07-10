@@ -8,8 +8,8 @@ namespace GoC
 {
     public class Program
     {
-        public static void Main(string[] args)
-        {
+            public static void Main(string[] args)
+            {
             Console.WriteLine("[|= Game Of Cards =|]\n\n");
             List<Carta> Baralho = new List<Carta>();
             Console.Write("Jogador 1, digite seu nome: ");
@@ -68,15 +68,15 @@ namespace GoC
 
             while (op)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     int index = new Random().Next(Baralho.Count);
                     p1.BaralhoPessoa.Add(Baralho[index]);
                     Baralho.Remove(Baralho[index]);
 
-                    if (p1.BaralhoPessoa.Count == 3)
+                    if (p1.BaralhoPessoa.Count == 10)
                     {
-                        for (i = 0; i < 3; i++)
+                        for (i = 0; i < 10; i++)
                         {
                             index = new Random().Next(Baralho.Count);
                             p2.BaralhoPessoa.Add(Baralho[index]);
