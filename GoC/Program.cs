@@ -10,7 +10,6 @@ namespace GoC
     {
         public static void Main(string[] args)
         {
-            MostraJogo();
 
             List<Carta> Baralho = new List<Carta>();
             Console.Write("Jogador 1, digite seu nome: ");
@@ -23,7 +22,6 @@ namespace GoC
             int vez = new Random().Next(0, 2);
             int rodada = 1;
             bool op = true;
-            bool erro = true;
 
             Espada Alondeg = new Espada("Alondeg", "Espada", 5, 4, 6, 5);
             Espada Amatsu = new Espada("Amatsu", "Espada", 5, 6, 5, 8);
@@ -46,7 +44,7 @@ namespace GoC
             Machado Gotsau = new Machado("Gotsau", "Machado", 9, 5, 7, 5);
             Machado Qiudeb = new Machado("Qiudeb", "Machado", 6, 8, 9, 5);
 
-            
+
             Baralho.Add(Alondeg);
             Baralho.Add(Amatsu);
             Baralho.Add(Belmarg);
@@ -70,7 +68,6 @@ namespace GoC
 
             while (op)
             {
-                //vez = 0;
                 for (int i = 0; i < 3; i++)
                 {
                     int index = new Random().Next(Baralho.Count);
@@ -88,116 +85,148 @@ namespace GoC
                     }
                 }
 
-                while (p1.BaralhoPessoa.Count != 0 || p2.BaralhoPessoa.Count != 0)
+                while (p1.BaralhoPessoa.Count > 0 || p2.BaralhoPessoa.Count > 0)
                 {
+                    bool erro = true;
 
-                    Console.WriteLine($"=-=-=-= Rodada {rodada} =-=-=-=");
-                    Console.WriteLine($"{p1.Nome} tem {p1.BaralhoPessoa.Count} cartas;\n{p2.Nome} tem {p2.BaralhoPessoa.Count} cartas;\n");
-                    Console.WriteLine($"Placar\n{p1.Nome}: {p1.Pontos} | {p2.Nome}: {p2.Pontos}\n");
                     //Jogador 1
                     if (vez == 0)
                     {
-                        while (erro)
-                        {
-                            try
-                            {
-                                p1.VerCartas();
-                                p2.VerCartas();
-                                p1.BaralhoPessoa[p1.CartaEscolha].Dano(p1, p2);
-                                erro = false;
-                            }
-                            catch (Excecao ex)
-                            {
-                                Console.WriteLine("Erro: " + ex.Message);
-                                Console.Write("Digite uma tecla pra continuar...\n");
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-                            vez = 0;
-                        }
+                        Rodada();
+                        p1.VerCartas();
+                        Rodada();
+                        p2.VerCartas();
+                        p1.BaralhoPessoa[p1.CartaEscolha].Dano(p1, p2);
+                        rodada++;
                         vez = 1;
-                        erro = true;
                     }
                     //Jogador 2
-                    else
+                    else if (vez == 1)
                     {
-                        while (erro)
-                        {
-                            try
-                            {
-                                p2.VerCartas();
-                                p1.VerCartas();
-                                p2.BaralhoPessoa[p2.CartaEscolha].Dano(p2, p1);
-                                erro = false;
-                            }
-                            catch (Excecao ex)
-                            {
-                                Console.WriteLine("Erro: " + ex.Message);
-                                Console.Write("Digite uma tecla pra continuar...\n");
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-                            vez = 1;
-                        }    
+                        Rodada();
+                        p2.VerCartas();
+                        Rodada();
+                        p1.VerCartas();
+                        p2.BaralhoPessoa[p2.CartaEscolha].Dano(p2, p1);
+                        rodada++;
                         vez = 0;
-                        erro = true;
-                    }
-
-                    //p2 ganhou
-                    if (p1.BaralhoPessoa.Count == 0)
-                    {
-                        Console.WriteLine($"Jogador {p2.Nome} ganhou! Deseja jogar novamente?\n[0]Sim\n[1]Não\n");
-                        int decisao = int.Parse(Console.ReadLine());
-
-
-                        if (decisao == 0)
-                        {
-                            for (int i = 0; i < p2.BaralhoPessoa.Count; i++)
-                            {
-                                Baralho.Add(p2.BaralhoPessoa[i]);
-                            }
-                            p2.BaralhoPessoa.Clear();
-                            rodada = 1;
-                            p1.Pontos = 0; p2.Pontos = 0;
-                            Console.Clear();
-                            continue;
-                        }
-                        else if (decisao == 1) { op = false; break; }
-
-                        else
-                            Console.WriteLine("ERRO!");
                     }
 
                     //p1 ganhou
-                    else if (p2.BaralhoPessoa.Count == 0)
+                    if (p2.BaralhoPessoa.Count == 0)
                     {
-                        Console.WriteLine($"Jogador {p1.Nome} ganhou! Deseja jogar novamente?\n[0]Sim\n[1]Não\n");
-                        int decisao = int.Parse(Console.ReadLine());
-
-                        if (decisao == 0)
+                        while (erro)
                         {
-                            for (int i = 0; i < p1.BaralhoPessoa.Count; i++)
+                            try
                             {
-                                Baralho.Add(p1.BaralhoPessoa[i]);
-                            }
-                            p1.BaralhoPessoa.Clear();
-                            rodada = 1;
-                            p1.Pontos = 0; p2.Pontos = 0;
-                            Console.Clear();
-                            continue;
-                        }
-                        else if (decisao == 1) { op = false; break; }
+                                Console.WriteLine($"Jogador {p1.Nome} ganhou! Deseja jogar novamente?\n[0]Sim\n[1]Não\n");
+                                int decisao = int.Parse(Console.ReadLine());
 
-                        else
-                            Console.WriteLine("ERRO!");
+                                if (decisao < 0 || decisao > 1 || decisao == null)
+                                {
+                                    throw new Excecao("Selecione uma opção válida!");
+                                }
+
+                                else if (decisao == 0)
+                                {
+                                    for (int i = 0; i < p1.BaralhoPessoa.Count; i++)
+                                    {
+                                        Baralho.Add(p1.BaralhoPessoa[i]);
+                                    }
+                                    p1.BaralhoPessoa.Clear();
+                                    rodada = 1;
+                                    p1.Pontos = 0; p2.Pontos = 0;
+                                    Console.Clear();
+                                    erro = false;
+                                    continue;
+                                }
+                                else if (decisao == 1)
+                                {
+                                    op = false;
+                                    break;
+                                }
+                            }
+                            catch (Excecao ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                Console.Write("Digite uma tecla pra continuar...\n");
+                                Console.ReadKey();
+                                erro = true;
+                                Console.Clear();
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Selecione uma opção válida!");
+                                Console.Write("Digite uma tecla pra continuar...\n");
+                                Console.ReadKey();
+                                erro = true;
+                                Console.Clear();
+                            }
+                        }
                     }
-                    rodada++;
+
+                    //p2 ganhou
+                    else if (p1.BaralhoPessoa.Count == 0)
+                    {
+                        while (erro)
+                        {
+                            try
+                            {
+                                Console.WriteLine($"Jogador {p2.Nome} ganhou! Deseja jogar novamente?\n[0]Sim\n[1]Não\n");
+                                int decisao = int.Parse(Console.ReadLine());
+
+                                if (decisao < 0 || decisao > 1 || decisao == null)
+                                {
+                                    throw new Excecao("Selecione uma opção válida!");
+                                }
+
+                                else if (decisao == 0)
+                                {
+                                    for (int i = 0; i < p2.BaralhoPessoa.Count; i++)
+                                    {
+                                        Baralho.Add(p2.BaralhoPessoa[i]);
+                                    }
+                                    p2.BaralhoPessoa.Clear();
+                                    rodada = 1;
+                                    p1.Pontos = 0; p2.Pontos = 0;
+                                    Console.Clear();
+                                    erro = false;
+                                    continue;
+                                }
+                                else if (decisao == 1)
+                                {
+                                    op = false;
+                                    break;
+                                }
+                            }
+                            catch (Excecao ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                Console.Write("Digite uma tecla pra continuar...\n");
+                                Console.ReadKey();
+                                erro = true;
+                                Console.Clear();
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Selecione uma opção válida!");
+                                Console.Write("Digite uma tecla pra continuar...\n");
+                                Console.ReadKey();
+                                erro = true;
+                                Console.Clear();
+                            }
+                            // erro = true;
+                        }
+                    }
                 }
-            }             
-        }
-        public static void MostraJogo()
-        {
-            Console.WriteLine("[|= Game Of Cards =|]\n\n");
+            }
+            void Rodada()
+            {
+                Console.WriteLine("[|= Game Of Cards =|]\n\n");
+                Console.WriteLine($"=-=-=-= Rodada {rodada} =-=-=-=");
+                Console.WriteLine($"{p1.Nome} tem {p1.BaralhoPessoa.Count} cartas;\n{p2.Nome} tem {p2.BaralhoPessoa.Count} cartas;\n");
+                Console.WriteLine($"Placar\n{p1.Nome}: {p1.Pontos} | {p2.Nome}: {p2.Pontos}\n");
+            }
         }
     }
 }

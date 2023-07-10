@@ -8,6 +8,6 @@ namespace GoC
 {
     public class Excecao : Exception
     {
-        public Excecao( string msg ) : base (msg) { }
+        public Excecao(string msg) : base(msg) { }
     }
 }

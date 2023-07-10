@@ -34,13 +34,36 @@ namespace GoC
 
             while (erro)
             {
+                try
+                {
                     Console.Write($"{a.Nome}, selecione o tipo de dano que deseja causar:\n[0]Físico\n[1]Mágico\n");
                     TipoDano = int.Parse(Console.ReadLine());
 
-                if (TipoDano > 1) { throw new Excecao("ERRO!"); }
-                else
+                    if (TipoDano > 1 || TipoDano < 0 || TipoDano == null)
+                    {
+                        throw new Excecao("Selecione uma opção válida!");
+                    }
+                    else
+                        Console.Clear();
                     erro = false;
-            }         
+                }
+                catch (Excecao ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.Write("Digite uma tecla pra continuar...\n");
+                    Console.ReadKey();
+                    erro = true;
+                    Console.Clear();
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Selecione uma opção válida!");
+                    Console.Write("Digite uma tecla pra continuar...\n");
+                    Console.ReadKey();
+                    erro = true;
+                    Console.Clear();
+                }
+            }
 
             //DanoFisico
             if (TipoDano == 0)
@@ -211,8 +234,8 @@ namespace GoC
                     b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                     a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                     b.Pontos++;
-                }    
-            }              
+                }
+            }
         }
     }
 
