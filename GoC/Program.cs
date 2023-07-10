@@ -10,7 +10,7 @@ namespace GoC
     {
         public static void Main(string[] args)
         {
-
+            Console.WriteLine("[|= Game Of Cards =|]\n\n");
             List<Carta> Baralho = new List<Carta>();
             Console.Write("Jogador 1, digite seu nome: ");
             Pessoa p1 = new Pessoa(Console.ReadLine());
