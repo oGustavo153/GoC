@@ -10,11 +10,16 @@ namespace GoC
 {
     public class Pessoa
     {
-        public string Nome { get; set; }
+        private string nome { get; set; }
         public int CartaEscolha { get; set; }
         public List<Carta> BaralhoPessoa { get; set; }
 
         public int Pontos = 0;
+        public string Nome
+        {
+            get { return nome.Trim(); }
+            set { nome = value; }
+        }
 
         public Pessoa(string nome)
         {

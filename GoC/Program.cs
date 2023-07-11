@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,78 @@ namespace GoC
             {
             Console.WriteLine("[|= Game Of Cards =|]\n\n");
             List<Carta> Baralho = new List<Carta>();
-            Console.Write("Jogador 1, digite seu nome: ");
-            Pessoa p1 = new Pessoa(Console.ReadLine());
-            Console.Write("Jogador 2, digite seu nome: ");
-            Pessoa p2 = new Pessoa(Console.ReadLine());
-            Console.Clear();
+
+            Pessoa p1 = new Pessoa("");
+            Pessoa p2 = new Pessoa("");
+
+            bool erronome = true;
+            while (erronome)
+            {                      
+                try
+                {
+                    Console.Write("Jogador 1, digite seu nome: ");
+                    p1.Nome = Console.ReadLine();
+
+                    if (p1.Nome == "")
+                    {
+                        throw new Excecao("Nome inválido!");
+                    }
+                    else
+                        erronome = false;
+                    Console.Clear();
+                }
+                catch (Excecao ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.Write("Digite uma tecla pra continuar...\n");
+                    Console.ReadKey();
+                    erronome = true;
+                    Console.Clear();
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Selecione uma opção válida!");
+                    Console.Write("Digite uma tecla pra continuar...\n");
+                    Console.ReadKey();
+                    erronome = true;
+                    Console.Clear();
+                }
+            }
+
+            erronome = true;
+            while (erronome)
+            {
+                try
+                {
+                    Console.Write("Jogador 2, digite seu nome: ");
+                    p2.Nome = Console.ReadLine();
+
+                    if (p2.Nome == "")
+                    {
+                        throw new Excecao("Nome inválido!");
+                    }
+                    else
+                        erronome = false;
+                    Console.Clear();
+                }
+                catch (Excecao ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.Write("Digite uma tecla pra continuar...\n");
+                    Console.ReadKey();
+                    erronome = true;
+                    Console.Clear();
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Selecione uma opção válida!");
+                    Console.Write("Digite uma tecla pra continuar...\n");
+                    Console.ReadKey();
+                    erronome = true;
+                    Console.Clear();
+                }
+            }
+
             p1.BaralhoPessoa = new List<Carta>();
             p2.BaralhoPessoa = new List<Carta>();
             int vez = new Random().Next(0, 2);
