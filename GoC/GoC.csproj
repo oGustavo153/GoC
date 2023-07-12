@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Carta.cs" />
     <Compile Include="Excecao.cs" />
+    <Compile Include="Partida.cs" />
     <Compile Include="Pessoa.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

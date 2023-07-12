@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace GoC
 {
-    public class Pessoa
-    {
+    public class Pessoa : Partida
+    {    
         private string nome { get; set; }
         public int CartaEscolha { get; set; }
         public List<Carta> BaralhoPessoa { get; set; }
@@ -20,15 +20,9 @@ namespace GoC
             get { return nome.Trim(); }
             set { nome = value; }
         }
-
-        public Pessoa(string nome)
+        public List<Carta> VerCartas(Partida par)
         {
-            Nome = nome;
-        }
-
-        public List<Carta> VerCartas()
-        {
-
+            //Partida par = new Partida();
             bool erro = true;
 
             while (erro)
@@ -60,6 +54,7 @@ namespace GoC
                     Console.ReadKey();
                     erro = true;
                     Console.Clear();
+                    par.Rod(par.rodada, par.p1, par.p2);
                 }
                 catch (FormatException)
                 {
@@ -68,6 +63,7 @@ namespace GoC
                     Console.ReadKey();
                     erro = true;
                     Console.Clear();
+                    par.Rod(par.rodada, par.p1, par.p2);
                 }
             }
             return BaralhoPessoa;

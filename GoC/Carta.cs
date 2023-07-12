@@ -30,6 +30,7 @@ namespace GoC
 
         public void Dano(Pessoa a, Pessoa b)
         {
+            Partida par = new Partida();
             bool erro = true;
 
             while (erro)
@@ -54,6 +55,7 @@ namespace GoC
                     Console.ReadKey();
                     erro = true;
                     Console.Clear();
+                    par.Rod(par.rodada, par.p1, par.p2);
                 }
                 catch (FormatException)
                 {
@@ -62,6 +64,7 @@ namespace GoC
                     Console.ReadKey();
                     erro = true;
                     Console.Clear();
+                    par.Rod(par.rodada, par.p1, par.p2);
                 }
             }
 
@@ -79,6 +82,7 @@ namespace GoC
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                         a.Pontos++;
+                        par.rodada++;
                     }
 
                     //b
@@ -89,6 +93,7 @@ namespace GoC
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                         b.Pontos++;
+                        par.rodada++;
                     }
 
                     //a
@@ -99,6 +104,7 @@ namespace GoC
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                         a.Pontos++;
+                        par.rodada++;
                     }
 
                     //b
@@ -109,6 +115,7 @@ namespace GoC
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                         b.Pontos++;
+                        par.rodada++;
                     }
 
                     //a
@@ -119,6 +126,7 @@ namespace GoC
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                         a.Pontos++;
+                        par.rodada++;
                     }
 
                     //b
@@ -129,6 +137,7 @@ namespace GoC
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                         b.Pontos++;
+                        par.rodada++;
                     }
                 }
 
@@ -139,6 +148,7 @@ namespace GoC
                     a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                     b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                     a.Pontos++;
+                    par.rodada++;
                 }
                 else if (b.BaralhoPessoa[b.CartaEscolha].Def > a.BaralhoPessoa[a.CartaEscolha].Atq)
                 {
@@ -148,6 +158,7 @@ namespace GoC
                     b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                     a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                     b.Pontos++;
+                    par.rodada++;
                 }
             }
 
@@ -165,6 +176,7 @@ namespace GoC
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                         a.Pontos++;
+                        par.rodada++;
                     }
 
                     //b
@@ -175,6 +187,7 @@ namespace GoC
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                         b.Pontos++;
+                        par.rodada++;
                     }
 
                     //a
@@ -185,6 +198,7 @@ namespace GoC
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                         a.Pontos++;
+                        par.rodada++;
                     }
 
                     //b
@@ -195,6 +209,7 @@ namespace GoC
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                         b.Pontos++;
+                        par.rodada++;
                     }
 
                     //a
@@ -205,6 +220,7 @@ namespace GoC
                         a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                         b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                         a.Pontos++;
+                        par.rodada++;
                     }
 
                     //b
@@ -215,6 +231,7 @@ namespace GoC
                         b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                         a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                         b.Pontos++;
+                        par.rodada++;
                     }
                 }
                 else if (a.BaralhoPessoa[a.CartaEscolha].Mag > b.BaralhoPessoa[b.CartaEscolha].Res)
@@ -225,6 +242,7 @@ namespace GoC
                     a.BaralhoPessoa.Add(b.BaralhoPessoa[b.CartaEscolha]);
                     b.BaralhoPessoa.Remove(b.BaralhoPessoa[b.CartaEscolha]);
                     a.Pontos++;
+                    par.rodada++;
                 }
                 else if (b.BaralhoPessoa[b.CartaEscolha].Res > a.BaralhoPessoa[a.CartaEscolha].Mag)
                 {
@@ -234,6 +252,7 @@ namespace GoC
                     b.BaralhoPessoa.Add(a.BaralhoPessoa[a.CartaEscolha]);
                     a.BaralhoPessoa.Remove(a.BaralhoPessoa[a.CartaEscolha]);
                     b.Pontos++;
+                    par.rodada++;
                 }
             }
         }
