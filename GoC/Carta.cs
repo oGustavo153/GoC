@@ -30,7 +30,7 @@ namespace GoC
 
         public void Dano(Pessoa a, Pessoa b)
         {
-            Partida par = new Partida();
+            Partida par = new Partida(a, b);
             bool erro = true;
 
             while (erro)

@@ -18,6 +18,12 @@ namespace GoC
         public Pessoa p1;
         public Pessoa p2;
 
+        public Partida(Pessoa jogador1, Pessoa jogador2)
+        {
+            p1 = jogador1;
+            p2 = jogador2;
+        }
+
         public void Jogar()
         {          
             bool op = true;
@@ -68,15 +74,15 @@ namespace GoC
 
             while (op)
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     int index = new Random().Next(Baralho.Count);
                     p1.BaralhoPessoa.Add(Baralho[index]);
                     Baralho.Remove(Baralho[index]);
 
-                    if (p1.BaralhoPessoa.Count == 2)
+                    if (p1.BaralhoPessoa.Count == 10)
                     {
-                        for (i = 0; i < 2; i++)
+                        for (i = 0; i < 10; i++)
                         {
                             index = new Random().Next(Baralho.Count);
                             p2.BaralhoPessoa.Add(Baralho[index]);
@@ -91,11 +97,11 @@ namespace GoC
                     //Jogador 1
                     if (vez == 0)
                     {
-                        Rod(this.rodada, p1, p2);
+                        Rod(this.rodada, this.p1, this.p2);
                         p1.VerCartas(this);
-                        Rod(this.rodada, p1, p2);
+                        Rod(this.rodada, this.p1, this.p2);
                         p2.VerCartas(this);
-                        Rod(this.rodada, p1, p2);
+                        Rod(this.rodada, this.p1, this.p2);
                         p1.BaralhoPessoa[p1.CartaEscolha].Dano(p1, p2);
                         this.rodada++;
                         vez = 1;
@@ -103,11 +109,11 @@ namespace GoC
                     //Jogador 2
                     else if (vez == 1)
                     {
-                        Rod(this.rodada, p1, p2);
+                        Rod(this.rodada, this.p1, this.p2);
                         p2.VerCartas(this);
-                        Rod(this.rodada, p1, p2);
+                        Rod(this.rodada, this.p1, this.p2);
                         p1.VerCartas(this);
-                        Rod(this.rodada, p1, p2);
+                        Rod(this.rodada, this.p1, this.p2);
                         p2.BaralhoPessoa[p2.CartaEscolha].Dano(p2, p1);
                         this.rodada++;
                         vez = 0;
@@ -220,7 +226,7 @@ namespace GoC
                 }
             }
         }
-        public void ColocaNome()
+        public void ColocaNome(Partida par)
         {
             bool erronome = true;
             while (erronome)
@@ -230,11 +236,11 @@ namespace GoC
                     Console.WriteLine("[|= Game Of Cards =|]\n\n");
                     Console.Write("Jogador 1, digite seu nome: ");
                     Pessoa pessoa = new Pessoa();
-                    p1 = pessoa;
-                    p1.Nome = Console.ReadLine();
-                    p1.BaralhoPessoa = new List<Carta>();
+                    par.p1 = pessoa;
+                    par.p1.Nome = Console.ReadLine();
+                    par.p1.BaralhoPessoa = new List<Carta>();
 
-                    if (p1.Nome == "")
+                    if (par.p1.Nome == "")
                     {
                         throw new Excecao("Nome inválido!");
                     }
@@ -268,11 +274,11 @@ namespace GoC
                     Console.WriteLine("[|= Game Of Cards =|]\n\n");
                     Console.Write("Jogador 2, digite seu nome: ");
                     Pessoa pessoa = new Pessoa();
-                    p2 = pessoa;
-                    p2.Nome = Console.ReadLine();
-                    p2.BaralhoPessoa = new List<Carta>();
+                    this.p2 = pessoa;
+                    this.p2.Nome = Console.ReadLine();
+                    this.p2.BaralhoPessoa = new List<Carta>();
 
-                    if (p2.Nome == "")
+                    if (this.p2.Nome == "")
                     {
                         throw new Excecao("Nome inválido!");
                     }
@@ -300,10 +306,11 @@ namespace GoC
         }
         public void Rod(int rodada, Pessoa p1, Pessoa p2)
         {
+            p1.Nome = this.p1.Nome; p2.Nome = this.p2.Nome;
             Console.WriteLine("[|= Game Of Cards =|]\n\n");
             Console.WriteLine($"=-=-=-= Rodada {rodada} =-=-=-=");
-            //Console.WriteLine($"{p1.Nome} tem {p1.BaralhoPessoa.Count} cartas;\n{p2.Nome} tem {p2.BaralhoPessoa.Count} cartas;\n");
-            //Console.WriteLine($"Placar\n{p1.Nome}: {p1.Pontos} | {p2.Nome}: {p2.Pontos}\n");
+            Console.WriteLine($"{p1.Nome} tem {p1.BaralhoPessoa.Count} cartas;\n{p2.Nome} tem {p2.BaralhoPessoa.Count} cartas;\n");
+            Console.WriteLine($"Placar\n{p1.Nome}: {p1.Pontos} | {p2.Nome}: {p2.Pontos}\n");
         }
     }
 }

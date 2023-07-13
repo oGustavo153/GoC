@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GoC
 {
-    public class Pessoa : Partida
+    public class Pessoa
     {    
         private string nome { get; set; }
         public int CartaEscolha { get; set; }
